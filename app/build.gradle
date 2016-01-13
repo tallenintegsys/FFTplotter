@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "biz.integsys.autopatch"
+        applicationId "biz.integsys.fftplotter"
         minSdkVersion 23
         targetSdkVersion 23
         versionCode 1

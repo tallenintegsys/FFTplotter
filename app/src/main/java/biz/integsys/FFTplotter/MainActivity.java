@@ -1,4 +1,4 @@
-package biz.integsys.autopatch;
+package biz.integsys.fftplotter;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import com.androidplot.xy.XYSeries;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements AudioMonitorListener {
+public class MainActivity extends AppCompatActivity implements biz.integsys.fftplotter.AudioMonitorListener {
     private final String TAG = "MainActivity";
     private final AudioMonitor audioMonitor = new AudioMonitor(this);
     private XYPlot plot;

@@ -1,4 +1,4 @@
-package biz.integsys.autopatch;
+package biz.integsys.fftplotter;
 /******************************************************************************
 *  Copyright 2006-2007 Columbia University.
 *

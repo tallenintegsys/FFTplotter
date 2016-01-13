@@ -1,4 +1,4 @@
-package biz.integsys.autopatch;
+package biz.integsys.fftplotter;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;

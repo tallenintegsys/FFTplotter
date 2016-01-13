@@ -1,4 +1,4 @@
-package biz.integsys.autopatch;
+package biz.integsys.fftplotter;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

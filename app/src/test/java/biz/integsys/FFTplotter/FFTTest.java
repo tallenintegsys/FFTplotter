@@ -1,4 +1,4 @@
-package biz.integsys.autopatch;
+package biz.integsys.fftplotter;
 
 import org.junit.After;
 import org.junit.Before;
