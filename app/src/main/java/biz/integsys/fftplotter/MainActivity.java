@@ -1,9 +1,13 @@
 package biz.integsys.fftplotter;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,9 +26,11 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements biz.integsys.fftplotter.AudioMonitorListener {
     private final String TAG = "MainActivity";
-    private final AudioMonitor audioMonitor = new AudioMonitor(this);
+    private AudioMonitor audioMonitor = new AudioMonitor(this);
     private XYPlot plot;
-    private Number am[] = new Number[AudioMonitor.SAMPLE_SIZE];
+    private Float am[] = new Float[AudioMonitor.SAMPLE_SIZE];
+    private static final int RECORD_AUDIO_PERMISSION = 1;
+    private Switch enableSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,12 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_PERMISSION);
+        else
+            audioMonitor.init();
 
         plot = (XYPlot) findViewById(R.id.plot);
         XYSeries series1 = new SimpleXYSeries(Arrays.asList(am), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "bins");
@@ -44,8 +56,13 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         showSampleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Thread (new Runnable() {
+                    @Override
+                    public void run() {
                 am = audioMonitor.getAmplitude();
                 plot.redraw();
+                    }
+                }).run();
             }
         });
 
@@ -58,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
             }
         });
 
-        Switch enableSwitch = (Switch) findViewById(R.id.enable);
+        enableSwitch = (Switch) findViewById(R.id.enable);
         enableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -91,6 +108,22 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RECORD_AUDIO_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    audioMonitor.init();
+                } else {
+                    // permission denied
+                    enableSwitch.setEnabled(false);
+                }
+                return;
+            }
+        }
+    }
     public void transformedResult(float result[]) {
         //Log.i(TAG, "result: " + result.toString());
 
