@@ -10,18 +10,12 @@
     tools:context="biz.integsys.fftplotter.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enable"
-        android:id="@+id/enable"
-        android:layout_centerHorizontal="true"
-        android:textSize="80dp" />
+
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
         android:layout_width="fill_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
         ap:label="frequency amplitude plot"
         ap:rangeLabel="range"
         ap:domainLabel="domain"
@@ -53,15 +47,18 @@
         ap:legendIconWidth="15dp"
         ap:legendHeight="25dp"
         ap:legendAnchorPosition="right_bottom"
-        android:layout_below="@+id/enable"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/enable"
+        android:layout_alignParentTop="true" />
 
-    <Button
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/show_sample"
-        android:id="@+id/showSampleButton"
+        android:text="@string/enable"
+        android:id="@+id/enable"
+        android:textSize="18sp"
+        android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp" />
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

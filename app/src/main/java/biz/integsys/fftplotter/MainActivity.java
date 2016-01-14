@@ -4,33 +4,53 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity implements biz.integsys.fftplotter.AudioMonitorListener {
     private final String TAG = "MainActivity";
-    private AudioMonitor audioMonitor = new AudioMonitor(this);
+    private final AudioMonitor audioMonitor = new AudioMonitor(this);
     private XYPlot plot;
-    private Float am[] = new Float[AudioMonitor.SAMPLE_SIZE];
     private static final int RECORD_AUDIO_PERMISSION = 1;
     private Switch enableSwitch;
+    private final PlotData plotData = new PlotData();
+
+    class PlotData implements XYSeries {
+        private float am[] = new float[AudioMonitor.SAMPLE_SIZE];
+
+        public void set (float[] am) {
+            this.am = am;
+        }
+        @Override
+        public int size() {
+            return am.length/10; //can do the whole 32768 of 'em
+        }
+
+        @Override
+        public Number getX(int index) {
+            return index;
+        }
+
+        @Override
+        public Number getY(int index) {
+            return am[index]; //this is efficient??!
+        }
+
+        @Override
+        public String getTitle() {
+            return "series";
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,34 +66,9 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
             audioMonitor.init();
 
         plot = (XYPlot) findViewById(R.id.plot);
-        XYSeries series1 = new SimpleXYSeries(Arrays.asList(am), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "bins");
-
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, null, null, null);
-        plot.addSeries(series1, series1Format);
+        plot.addSeries(plotData, series1Format);
         plot.setTicksPerRangeLabel(1);
-
-        Button showSampleButton = (Button) findViewById(R.id.showSampleButton);
-        showSampleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread (new Runnable() {
-                    @Override
-                    public void run() {
-                am = audioMonitor.getAmplitude();
-                plot.redraw();
-                    }
-                }).run();
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         enableSwitch = (Switch) findViewById(R.id.enable);
         enableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -120,13 +115,14 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
                     // permission denied
                     enableSwitch.setEnabled(false);
                 }
-                return;
             }
         }
     }
-    public void transformedResult(float result[]) {
-        //Log.i(TAG, "result: " + result.toString());
 
+    public void transformedResult(float[] result) {
+        plotData.set(result);
+        plot.redraw();
+        //Log.i(TAG, "result... ");
     }
 
     @Override

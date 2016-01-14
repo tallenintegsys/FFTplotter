@@ -42,13 +42,13 @@ class AudioMonitor {
         monitorThread = new Thread(new Runnable() {
             public void run() {
                 do {
-                    int read = audioRecord.read(recordBuffer, 0, BUFFER_SIZE, AudioRecord.READ_BLOCKING);
-                    Log.d(TAG, "read " + read + " floats.");
+                    audioRecord.read(recordBuffer, 0, BUFFER_SIZE, AudioRecord.READ_BLOCKING);
+                    //Log.d(TAG, "read " + read + " floats.");
                     im = zero.clone(); //memset, I hope?
                     System.arraycopy(recordBuffer, 0, re, 0, SAMPLE_SIZE); //memset, I presume
                     fft.fft(re, im);
                     if (listener != null)
-                        listener.transformedResult(re); //XXX do this as a thread???
+                        listener.transformedResult(re);
                 } while (enable);
                 for (int i = 0; i < SAMPLE_SIZE; i++) {
                     if ((Math.abs(im[i]) > 1000) || (Math.abs(re[i]) > 1000))
