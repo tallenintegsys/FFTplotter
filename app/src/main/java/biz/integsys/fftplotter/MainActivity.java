@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
@@ -32,13 +33,10 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
             this.am = am;
         }
         @Override
-        public int size() {
-            return am.length/10; //can do the whole 32768 of 'em
-        }
+        public int size() { return am.length/2; }
 
         @Override
-        public Number getX(int index) {
-            return index;
+        public Number getX(int index) {return index * AudioMonitor.SAMPLE_RATE / am.length;
         }
 
         @Override
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
 
         @Override
         public String getTitle() {
-            return "series";
+            return "";
         }
     }
 
@@ -68,7 +66,12 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         plot = (XYPlot) findViewById(R.id.plot);
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, null, null, null);
         plot.addSeries(plotData, series1Format);
-        plot.setTicksPerRangeLabel(1);
+        plot.setUserRangeOrigin(0);
+        plot.setRangeBoundaries(-10,10, BoundaryMode.FIXED);
+        plot.getGraphWidget().setDomainLabelOrientation(45);
+        plot.getGraphWidget().setDomainTickLabelHorizontalOffset(15);
+        plot.getGraphWidget().setDomainTickLabelVerticalOffset(15);
+        plot.getLegendWidget().setVisible(false);
 
         enableSwitch = (Switch) findViewById(R.id.enable);
         enableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
