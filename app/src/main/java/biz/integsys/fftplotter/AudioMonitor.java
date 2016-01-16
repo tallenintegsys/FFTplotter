@@ -13,9 +13,9 @@ class AudioMonitor {
     private final String TAG = "AudioMonitor";
     private AudioRecord audioRecord;
     private Thread monitorThread;
-    public static final int BUFFER_SIZE = 1024;
-    public static final int SAMPLE_SIZE = 1024;
-    public static final int SAMPLE_RATE = 44100;
+    public static final int BUFFER_SIZE = 2048;
+    public static final int SAMPLE_SIZE = 2048;
+    public static final int SAMPLE_RATE = 8000;
     public static final int STATE_INITIALIZED = AudioRecord.STATE_INITIALIZED;
     private final float[] recordBuffer= new float[BUFFER_SIZE];
     private final float[] re = new float[SAMPLE_SIZE];
