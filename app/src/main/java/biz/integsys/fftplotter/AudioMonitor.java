@@ -13,12 +13,11 @@ class AudioMonitor {
     private final String TAG = "AudioMonitor";
     private AudioRecord audioRecord;
     private Thread monitorThread;
-    public static final int BUFFER_SIZE = 2048;
     public static final int SAMPLE_SIZE = 2048;
     public static final int SAMPLE_RATE = 8000;
     public static final int STATE_INITIALIZED = AudioRecord.STATE_INITIALIZED;
-    private final short[] recordBuffer= new short[BUFFER_SIZE];
-    private final float[] re = new float[SAMPLE_SIZE];
+    private final short[] recordBuffer= new short[SAMPLE_SIZE];
+    private float[] re = new float[SAMPLE_SIZE];
     private float[] im = new float[SAMPLE_SIZE];
     private final float[] zero = new float[SAMPLE_SIZE];
     private final Float[] amplitude = new Float[SAMPLE_SIZE];
@@ -32,7 +31,7 @@ class AudioMonitor {
 
     public int init() {
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE,
-                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, BUFFER_SIZE);
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, SAMPLE_SIZE);
         return audioRecord.getState();
     }
 
@@ -43,12 +42,14 @@ class AudioMonitor {
             public void run() {
                 do {
                     int accumulated = 0;
+                    int cycles = 0;
                     do {
-                        accumulated += audioRecord.read(recordBuffer, accumulated, BUFFER_SIZE - accumulated);
-                    } while (accumulated < BUFFER_SIZE);
+                        accumulated += audioRecord.read(recordBuffer, accumulated, SAMPLE_SIZE - accumulated);
+                        cycles++;
+                    } while (accumulated < SAMPLE_SIZE);
                     //Log.d(TAG, "read " + read + " floats.");
                     im = zero.clone(); //memset, I hope?
-                    for (int i=0; i<BUFFER_SIZE; i++)
+                    for (int i=0; i<SAMPLE_SIZE; i++)
                         re[i] = recordBuffer[i];
                     fft.fft(re, im);
                     if (listener != null)
