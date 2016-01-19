@@ -46,7 +46,7 @@ class AudioMonitor {
                     im = zero.clone(); //memset, I hope?
                     //System.arraycopy(recordBuffer, 0, re, 0, SAMPLE_SIZE); //memset, I presume
                     for (int i=0; i<SAMPLE_SIZE; i++)
-                        re[i] = recordBuffer[i] / 10000;
+                        re[i] = recordBuffer[i] * .000001f; //how does one vectorize this in Java?
                     fft.fft(re, im);
                     if (listener != null)
                         listener.transformedResult(re);
