@@ -17,7 +17,7 @@ class AudioMonitor {
     public static final int SAMPLE_RATE = 44100;
     public static final int STATE_INITIALIZED = AudioRecord.STATE_INITIALIZED;
     private final short[] recordBuffer= new short[SAMPLE_SIZE];
-    private final float[] re = new float[SAMPLE_SIZE];
+    private float[] re = new float[SAMPLE_SIZE];
     private float[] im = new float[SAMPLE_SIZE];
     private final float[] zero = new float[SAMPLE_SIZE];
     private final Float[] amplitude = new Float[SAMPLE_SIZE];
@@ -41,21 +41,18 @@ class AudioMonitor {
         monitorThread = new Thread(new Runnable() {
             public void run() {
                 do {
-                    audioRecord.read(recordBuffer, 0, SAMPLE_SIZE, AudioRecord.READ_BLOCKING);
-                    //Log.d(TAG, "read " + read + " floats.");
-                    im = zero.clone(); //memset, I hope?
-                    //System.arraycopy(recordBuffer, 0, re, 0, SAMPLE_SIZE); //memset, I presume
+                    int accumulated = 0;
+                    do { // audioRecord.read(recordBuffer, 0, SAMPLE_SIZE, AudioRecord.READ_BLOCKING);
+                        accumulated += audioRecord.read(recordBuffer, accumulated, SAMPLE_SIZE - accumulated);
+                    } while (accumulated < SAMPLE_SIZE);
+                    im = zero.clone();
                     for (int i=0; i<SAMPLE_SIZE; i++)
-                        re[i] = recordBuffer[i] * .000001f; //how does one vectorize this in Java?
+                        re[i] = recordBuffer[i] * .00001f; //vectorized?
                     fft.fft(re, im);
                     if (listener != null)
                         listener.transformedResult(re);
                 } while (enable);
-                for (int i = 0; i < SAMPLE_SIZE; i++) {
-                    //if ((Math.abs(im[i]) > 1000) || (Math.abs(re[i]) > 1000))
-                        Log.v(TAG, "i="+i+"   x="+ im[i]+"   y="+ re[i]);
                     audioRecord.stop();
-                }
             }
         });
         monitorThread.start();
