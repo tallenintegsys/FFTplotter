@@ -13,15 +13,15 @@ class AudioMonitor {
     private final String TAG = "AudioMonitor";
     private AudioRecord audioRecord;
     private Thread monitorThread;
-    public static final int SAMPLE_SIZE = 2048;
+    private int sampleSize;
     public static final int SAMPLE_RATE = 44100;
     public static final int STATE_INITIALIZED = AudioRecord.STATE_INITIALIZED;
-    private final short[] recordBuffer= new short[SAMPLE_SIZE];
-    private float[] re = new float[SAMPLE_SIZE];
-    private float[] im = new float[SAMPLE_SIZE];
-    private final float[] zero = new float[SAMPLE_SIZE];
-    private final Float[] amplitude = new Float[SAMPLE_SIZE];
-    private final FFT fft = new FFT(SAMPLE_SIZE);
+    private short[] recordBuffer;
+    private float[] re;
+    private float[] im;
+    private float[] zero;
+    private Float[] amplitude;
+    private FFT fft;
     private boolean enable;
     private AudioMonitorListener listener = null;
 
@@ -29,9 +29,18 @@ class AudioMonitor {
         this.listener = listener;
     }
 
-    public int init() {
+    public int init(int exponent) {
+        sampleSize = 2 << (exponent-1);
+        if (audioRecord != null)
+            audioRecord.release();
+        recordBuffer = new short[sampleSize];
+        re = new float[sampleSize];
+        im = new float[sampleSize];
+        zero = new float[sampleSize];
+        amplitude = new Float[sampleSize];
+        fft = new FFT(sampleSize);
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE,
-                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, SAMPLE_SIZE);
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, recordBuffer.length);
         return audioRecord.getState();
     }
 
@@ -43,10 +52,10 @@ class AudioMonitor {
                 do {
                     int accumulated = 0;
                     do { // audioRecord.read(recordBuffer, 0, SAMPLE_SIZE, AudioRecord.READ_BLOCKING);
-                        accumulated += audioRecord.read(recordBuffer, accumulated, SAMPLE_SIZE - accumulated);
-                    } while (accumulated < SAMPLE_SIZE);
+                        accumulated += audioRecord.read(recordBuffer, accumulated, recordBuffer.length - accumulated);
+                    } while (accumulated < recordBuffer.length);
                     im = zero.clone();
-                    for (int i=0; i<SAMPLE_SIZE; i++)
+                    for (int i=0; i<recordBuffer.length; i++)
                         re[i] = recordBuffer[i] * .00001f; //vectorized?
                     fft.fft(re, im);
                     if (listener != null)
@@ -69,6 +78,11 @@ class AudioMonitor {
 
     private synchronized void updateAmplitude() {
         for (int i = 0; i < re.length; i++)
-            amplitude[i] = (float) Math.cos(i/ SAMPLE_SIZE);
+            amplitude[i] = (float) Math.cos(i/re.length);
     }
+
+    public int getSampleSize() {
+        return sampleSize;
+    }
+
 }

@@ -25,11 +25,15 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
     private XYPlot plot;
     private static final int RECORD_AUDIO_PERMISSION = 1;
     private Switch enableSwitch;
-    private final PlotData plotData = new PlotData();
+    private PlotData plotData;
 
     class PlotData implements XYSeries {
-        private float am[] = new float[AudioMonitor.SAMPLE_SIZE];
+        private float am[];
 
+        public PlotData(int sampleSize) {
+            super();
+            am = new float[sampleSize];
+        }
         public void set (float[] am) {
             this.am = am;
         }
@@ -62,8 +66,13 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         if (permissionCheck != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_PERMISSION);
         else
-            audioMonitor.init();
+            audioMonitor.init(11);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        plotData = new PlotData(11);
         plot = (XYPlot) findViewById(R.id.plot);
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, null, null, null);
         plot.addSeries(plotData, series1Format);
@@ -84,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
                     audioMonitor.stop();
             }
         });
+        plot.redraw();
     }
 
     @Override
@@ -114,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-                    audioMonitor.init();
+                    audioMonitor.init(11);
                 } else {
                     // permission denied
                     enableSwitch.setEnabled(false);
@@ -130,10 +140,7 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        plot.redraw();
+    protected void onPause() {
+        super.onPause();
     }
-
-
 }
