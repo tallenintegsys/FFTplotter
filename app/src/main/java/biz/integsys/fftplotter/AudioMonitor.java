@@ -71,6 +71,8 @@ class AudioMonitor {
         enable = false;
     }
 
+    public boolean isRunning() { return monitorThread.isAlive(); }
+
     public synchronized Float[] getAmplitude() {
         updateAmplitude();
         return amplitude;

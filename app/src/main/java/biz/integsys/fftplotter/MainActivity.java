@@ -11,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.androidplot.xy.BoundaryMode;
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_PERMISSION);
@@ -112,10 +114,28 @@ public class MainActivity extends AppCompatActivity implements biz.integsys.fftp
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            final View sampleSize = findViewById(R.id.sample_size_view);
+            sampleSize.setVisibility(View.VISIBLE);
+            Button submitButton = (Button) findViewById(R.id.btnSubmit);
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sampleSize.setVisibility(View.INVISIBLE);
+                    //String ss = String.valueOf(((Spinner)findViewById(R.id.sample_size)).getSelectedItem());
+                    //Integer sampleSize = Integer.decode(ss);
+                    int sampleSize = ((Spinner)findViewById(R.id.sample_size)).getSelectedItemPosition()+11;
+                    boolean wasRunning = audioMonitor.isRunning();
+                    audioMonitor.stop();
+                    while (audioMonitor.isRunning());
+                    audioMonitor.init(sampleSize);
+                    if (wasRunning) audioMonitor.start();
+                }
+            });
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
