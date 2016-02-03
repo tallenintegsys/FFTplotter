@@ -22,7 +22,7 @@ class AudioMonitor {
     private float[] zero;
     private Float[] amplitude;
     private FFT fft;
-    private boolean enable;
+    private volatile boolean enable;
     private AudioMonitorListener listener = null;
 
     public AudioMonitor(AudioMonitorListener listener) {
