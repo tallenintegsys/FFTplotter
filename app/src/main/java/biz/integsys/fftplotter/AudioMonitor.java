@@ -3,11 +3,10 @@ package biz.integsys.fftplotter;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.util.Log;
 
 /**
  * Created by tallen on 12/11/15.
- * This monitors the mic and sends callbacks based on what it "hears" e.g. DTMFs
+ * This monitors the mic and sends callbacks with the FFT of what it "hears"
  */
 class AudioMonitor {
     private final String TAG = "AudioMonitor";
@@ -29,6 +28,11 @@ class AudioMonitor {
         this.listener = listener;
     }
 
+    /**
+     * get mic access and set the sample size (e.g. n = 2 ^ x)
+     * @param exponent
+     * @return AudioRecord.STATE_INITIALIZED on success
+     */
     public int init(int exponent) {
         sampleSize = 2 << (exponent-1);
         if (audioRecord != null)
@@ -44,6 +48,9 @@ class AudioMonitor {
         return audioRecord.getState();
     }
 
+    /**
+     * Begin monitoring mic
+     */
     public void start() {
         enable = true;
         audioRecord.startRecording();
@@ -67,24 +74,17 @@ class AudioMonitor {
         monitorThread.start();
     }
 
+    /**
+     * stop monitoring mic
+     */
     public void stop() {
         enable = false;
     }
 
+    /**
+     * check the state of mic monitoring
+     * @return
+     */
     public boolean isRunning() { return monitorThread.isAlive(); }
-
-    public synchronized Float[] getAmplitude() {
-        updateAmplitude();
-        return amplitude;
-    }
-
-    private synchronized void updateAmplitude() {
-        for (int i = 0; i < re.length; i++)
-            amplitude[i] = (float) Math.cos(i/re.length);
-    }
-
-    public int getSampleSize() {
-        return sampleSize;
-    }
 
 }
