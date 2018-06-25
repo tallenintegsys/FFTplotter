@@ -24,13 +24,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d55efda0-4969-4fe2-98d8-0ebbb9aaab11" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_appcompat_v7_23_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_design_23_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_recyclerview_v7_23_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_annotations_23_1_1_jar.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_v4_23_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12_jar.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3_jar.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FFTplotter.iws" />
@@ -88,8 +81,8 @@
       <file leaf-file-name="AudioMonitor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/biz/integsys/fftplotter/AudioMonitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+            <state relative-caret-position="264">
+              <caret line="15" column="48" lean-forward="true" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
               <folding>
                 <element signature="e#2739#2740#0" expanded="true" />
                 <element signature="e#2769#2770#0" expanded="true" />
@@ -109,6 +102,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -1726,7 +1720,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="y" value="1747" />
+    <option name="y" value="-53" />
     <option name="width" value="3200" />
     <option name="height" value="1853" />
   </component>
@@ -2013,7 +2007,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="1747" width="3200" height="1853" extended-state="0" />
+    <frame x="0" y="-53" width="3200" height="1853" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -2282,8 +2276,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/biz/integsys/fftplotter/AudioMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+        <state relative-caret-position="264">
+          <caret line="15" column="48" lean-forward="true" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
           <folding>
             <element signature="e#2739#2740#0" expanded="true" />
             <element signature="e#2769#2770#0" expanded="true" />
