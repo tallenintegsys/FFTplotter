@@ -24,11 +24,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d55efda0-4969-4fe2-98d8-0ebbb9aaab11" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_appcompat_v7_23_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_design_23_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_recyclerview_v7_23_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_annotations_23_1_1_jar.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_v4_23_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12_jar.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3_jar.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/FFTplotter.iml" afterPath="$PROJECT_DIR$/FFTplotter.iml" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
     </list>
     <ignored path="FFTplotter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1723,7 +1726,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="y" value="-53" />
+    <option name="y" value="1747" />
     <option name="width" value="3200" />
     <option name="height" value="1853" />
   </component>
@@ -1999,11 +2002,18 @@
       <option name="project" value="LOCAL" />
       <updated>1453665050022</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update to AS3">
+      <created>1529892622473</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1529892622473</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-53" width="3200" height="1853" extended-state="0" />
+    <frame x="0" y="1747" width="3200" height="1853" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -2059,7 +2069,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="just a temporary icon" />
     <MESSAGE value="rough-in ability to change sample size" />
-    <option name="LAST_COMMIT_MESSAGE" value="rough-in ability to change sample size" />
+    <MESSAGE value="update to AS3" />
+    <option name="LAST_COMMIT_MESSAGE" value="update to AS3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
